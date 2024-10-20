@@ -44,7 +44,7 @@ and [PixelSplat](https://github.com/dcharatan/pixelsplat). Below we quote the da
 #### Replica
 For Replica, we follow [Semantic-NeRF](https://github.com/Harry-Zhi/semantic_nerf) and use the provided pre-rendered Replica dataset. You can follow the scripts as below
 
-> * Download the pre-rendered [Replica dataset](https://www.dropbox.com/sh/9yu1elddll00sdl/AAC-rSJdLX0C6HhKXGKMOIija?dl=0) and unzip them. We only need the pictures and camera poses in office_0~4 and room_0~2. 
+> * Download the pre-rendered [Replica dataset](https://www.dropbox.com/sh/9yu1elddll00sdl/AAC-rSJdLX0C6HhKXGKMOIija?dl=0) and unzip them. We only need the pictures and camera poses in office 0-4 and room 0-2. 
 > * Convert Replica to chunks by running `python src/scripts/convert_replica.py --input_dir PATH_TO_REPLICA --output_dir datasets/replica`
 
 ### Download Checkpoint
