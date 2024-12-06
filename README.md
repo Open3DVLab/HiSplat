@@ -5,7 +5,11 @@ Official implementation of **HiSplat: Hierarchical 3D Gaussian Splatting for Gen
 Authors: [Shengji Tang](https://scholar.google.com/citations?user=K7drMDgAAAAJ&hl=en&oi=ao), [Weicai Ye](https://ywcmaike.github.io/), [Peng Ye](https://scholar.google.com/citations?user=UEZZP5QAAAAJ&hl=en), [Weihao Lin](https://scholar.google.com/citations?user=k5MQpaIAAAAJ&hl=en), [Yang Zhou](https://github.com/yangzhou24), [Tao Chen](https://scholar.google.com/citations?user=w3OoFL0AAAAJ&hl=en) and [Wanli Ouyang](https://wlouyang.github.io/).
 
 ### [Project Page](https://open3dvlab.github.io/HiSplat/) | [Paper](https://arxiv.org/pdf/2410.06245)
-
+## 📰 News
+2024-12-06 🌟Add the implementation for zero-shot testing on DTU and Replica in the 3-view setting
+## 📓 Abstract
+Reconstructing 3D scenes from multiple viewpoints is a fundamental task in stereo vision. Recently, advances in generalizable 3D Gaussian Splatting have enabled high-quality novel view synthesis for unseen scenes from sparse input views by feed-forward predicting per-pixel Gaussian parameters without extra optimization. However, existing methods typically generate single-scale 3D Gaussians, which lack representation of both large-scale structure and texture details, resulting in mislocation and artefacts. In this paper, we propose a novel framework, HiSplat, which introduces a hierarchical manner in generalizable 3D Gaussian Splatting to construct hierarchical 3D Gaussians via a coarse-to-fine strategy. Specifically, HiSplat generates large coarse-grained Gaussians to capture largescale structures, followed by fine-grained Gaussians to enhance delicate texture details. To promote inter-scale interactions, we propose an Error Aware Module for Gaussian compensation and a Modulating Fusion Module for Gaussian repair. Our method achieves joint optimization of hierarchical representations, allowing for novel view synthesis using only two-view reference images. Comprehensive experiments on various datasets demonstrate that HiSplat significantly enhances reconstruction quality and cross-dataset generalization compared to prior singlescale methods. The corresponding ablation study and analysis of different-scale 3D Gaussians reveal the mechanism behind the effectiveness.
+![pipeline](assets/readme_fig/framework.jpg)
 ## 🚩 Open-source Plan
 > ✅ Release basic code and checkpoints.  
 > 🔲  Release all checkpoints and more useful scripts.   
@@ -79,14 +83,16 @@ To render novel views and compute evaluation metrics from a pretrained model,
 * run the following:
 
 ```bash
-# Testing on RealEstate10K
+# Testing on RealEstate10K (input 2 views)
 python -m src.main +experiment=re10k checkpointing.load=./hisplat_re10k.ckpt mode=test dataset/view_sampler=evaluation dataset.view_sampler.index_path=assets/evaluation_index_re10k.json test.compute_scores=true output_dir=test_re10k
-# Cross-dataset testing RealEstate10K -> DTU
+# Cross-dataset testing RealEstate10K -> DTU (input 2 or 3 views)
 python -m src.main +experiment=dtu checkpointing.load=./hisplat_re10k.ckpt mode=test dataset/view_sampler=evaluation dataset.view_sampler.index_path=assets/evaluation_index_dtu_nctx2.json test.compute_scores=true output_dir=test_dtu
-# Cross-dataset testing RealEstate10K -> ACID
+python -m src.main +experiment=dtu checkpointing.load=./hisplat_re10k.ckpt mode=test dataset/view_sampler=evaluation dataset.view_sampler.index_path=assets/evaluation_index_dtu_nctx3.json test.compute_scores=true output_dir=test_dtu dataset.view_sampler.num_context_views=3
+# Cross-dataset testing RealEstate10K -> ACID (input 2 views)
 python -m src.main +experiment=acid checkpointing.load=./hisplat_re10k.ckpt mode=test dataset/view_sampler=evaluation dataset.view_sampler.index_path=assets/evaluation_index_acid.json test.compute_scores=true output_dir=test_acid
-# Cross-dataset testing RealEstate10K -> Replica
+# Cross-dataset testing RealEstate10K -> Replica (input 2 or 3 views)
 python -m src.main +experiment=replica checkpointing.load=./hisplat_re10k.ckpt mode=test dataset/view_sampler=evaluation dataset.view_sampler.index_path=assets/evaluation_index_replica_nctx2.json test.compute_scores=true output_dir=test_replica
+python -m src.main +experiment=replica checkpointing.load=./hisplat_re10k.ckpt mode=test dataset/view_sampler=evaluation dataset.view_sampler.index_path=assets/evaluation_index_replica_nctx3.json test.compute_scores=true output_dir=test_replica dataset.view_sampler.num_context_views=3
 ```
 
 ### 🔥 Training

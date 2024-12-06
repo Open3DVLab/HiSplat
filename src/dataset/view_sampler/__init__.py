@@ -36,13 +36,13 @@ def get_view_sampler(
     if not stage == "train":
         dataset_name = get_cfg().dataset.roots[0].split("/")[-1]
         if dataset_name == "dtu":
-            index_path = "assets/evaluation_index_dtu_nctx2.json"
+            index_path = f'assets/evaluation_index_dtu_nctx{get_cfg().dataset.view_sampler.num_context_views}.json'
         elif dataset_name == "re10k":
             index_path = "assets/evaluation_index_re10k.json"
         elif dataset_name == "acid":
             index_path = "assets/evaluation_index_acid.json"
         elif dataset_name == "replica":
-            index_path = "assets/evaluation_index_replica_nctx2.json"
+            index_path = f"assets/evaluation_index_replica_nctx{get_cfg().dataset.view_sampler.num_context_views}.json"
         else:
             index_path = None
         cfg = ViewSamplerEvaluationCfg(name="evaluation", index_path=Path(index_path), num_context_views=2)
